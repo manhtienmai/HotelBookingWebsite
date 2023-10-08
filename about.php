@@ -75,23 +75,23 @@
     <div class="swiper mySwiper">
       <div class="swiper-wrapper mb-5">
         <div class="swiper-slide bg-white text-center overflow-hidden rounded">
-          <img src="images/about/IMG_16569.jpeg" class="w-100">
+          <img src="images/about/IMG_14331.png" class="w-100">
           <h5 class="mt-2">Random name</h5>
         </div>
         <div class="swiper-slide bg-white text-center overflow-hidden rounded">
-          <img src="images/about/IMG_16569.jpeg" class="w-100">
+          <img src="images/about/IMG_14331.png" class="w-100">
           <h5 class="mt-2">Random name</h5>
         </div>
         <div class="swiper-slide bg-white text-center overflow-hidden rounded">
-          <img src="images/about/IMG_16569.jpeg" class="w-100">
+          <img src="images/about/IMG_14331.png" class="w-100">
           <h5 class="mt-2">Random name</h5>
         </div>
         <div class="swiper-slide bg-white text-center overflow-hidden rounded">
-          <img src="images/about/IMG_16569.jpeg" class="w-100">
+          <img src="images/about/IMG_14331.png" class="w-100">
           <h5 class="mt-2">Random name</h5>
         </div>
         <div class="swiper-slide bg-white text-center overflow-hidden rounded">
-          <img src="images/about/IMG_16569.jpeg" class="w-100">
+          <img src="images/about/IMG_14331.png" class="w-100">
           <h5 class="mt-2">Random name</h5>
         </div>
       </div>
