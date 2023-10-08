@@ -76,23 +76,23 @@
       <div class="swiper-wrapper mb-5">
         <div class="swiper-slide bg-white text-center overflow-hidden rounded">
           <img src="images/about/IMG_14331.png" class="w-100">
-          <h5 class="mt-2">Random name</h5>
+          <h5 class="mt-2">Thang</h5>
+        </div>
+        <div class="swiper-slide bg-white text-center overflow-hidden rounded">
+          <img src="images/about/c.png" class="w-100">
+          <h5 class="mt-2">Quan</h5>
         </div>
         <div class="swiper-slide bg-white text-center overflow-hidden rounded">
           <img src="images/about/IMG_14331.png" class="w-100">
-          <h5 class="mt-2">Random name</h5>
+          <h5 class="mt-2">Thang</h5>
+        </div>
+        <div class="swiper-slide bg-white text-center overflow-hidden rounded">
+          <img src="images/about/c.png" class="w-100">
+          <h5 class="mt-2">Quan</h5>
         </div>
         <div class="swiper-slide bg-white text-center overflow-hidden rounded">
           <img src="images/about/IMG_14331.png" class="w-100">
-          <h5 class="mt-2">Random name</h5>
-        </div>
-        <div class="swiper-slide bg-white text-center overflow-hidden rounded">
-          <img src="images/about/IMG_14331.png" class="w-100">
-          <h5 class="mt-2">Random name</h5>
-        </div>
-        <div class="swiper-slide bg-white text-center overflow-hidden rounded">
-          <img src="images/about/IMG_14331.png" class="w-100">
-          <h5 class="mt-2">Random name</h5>
+          <h5 class="mt-2">Thang</h5>
         </div>
       </div>
       <div class="swiper-pagination"></div>
