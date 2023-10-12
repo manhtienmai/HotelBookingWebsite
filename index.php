@@ -31,6 +31,17 @@
   <div class="container-fluid px-lg-4 mt-4">
     <div class="swiper swiper-container">
       <div class="swiper-wrapper">
+        <?php
+        $res = selectAll('carousel');
+        while ($row = mysqli_fetch_assoc($res)) {
+          $path = CAROUSEL_IMG_PATH;
+          echo <<< data
+            <div class="swiper-slide">
+              <img src="$path$row[image]" class="w-100 d-block">
+            </div>
+            data;
+        }
+        ?>
         <div class="swiper-slide">
           <img src="images/carousel/IMG_40905.png" class="w-100 d-block">
         </div>
@@ -434,9 +445,8 @@
         <div class="bg-white p-4 rounded mb-4">
           <h5>Follow us</h5>
           <?php
-            if($contact_r['tw'] != '')
-            {
-              echo<<<data
+          if ($contact_r['tw'] != '') {
+            echo <<<data
                 <a href="$contact_r[tw]" class="d-inline-block mb-3">
                   <span class="badge bg-light text-dark fs-6 p-2">
                     <i class="bi bi-twitter me-1"></i> Twitter
@@ -444,8 +454,7 @@
                 </a>
                 <br>
               data;
-
-            }
+          }
           ?>
 
           <a href="<?php echo $contact_r['fb'] ?>" class="d-inline-block mb-3">
