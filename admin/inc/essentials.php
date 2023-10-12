@@ -3,12 +3,14 @@
   // FRONTEND PURPOSE DATA
   define('SITE_URL', 'http://127.0.0.1/HotelBookingWebsite/');
   define('ABOUT_IMG_PATH',SITE_URL.'images/about/');
+  define('CAROUSEL_IMG_PATH',SITE_URL.'images/carousel/');
   
 
   // BACKEND UPLOAD PROCESS NEEDS THIS DATA
 
   define('UPLOAD_IMAGE_PATH', $_SERVER['DOCUMENT_ROOT'].'/HotelBookingWebsite/images/'); // ảnh trên web
   define('ABOUT_FOLDER', 'about/'); // từ folder about
+  define('CAROUSEL_FOLDER', 'carousel/');
 
   function adminLogin() {
     session_start();
