@@ -243,7 +243,7 @@ adminLogin();
               </button>
             </div>
             <div class="row" id="team-data">
-              <div class="col-md-2 mb-3">
+              <!-- <div class="col-md-2 mb-3">
                 <div class="card bg-dark text-white">
                   <img src="../images/about/IMG_14331.png" class="card-img">
                   <div class="card-img-overlay text-end">
@@ -252,7 +252,7 @@ adminLogin();
                     </button>
                   </div>
                   <p class="card-text text-center px-3 py-2">Thang</p>
-                </div>
+                </div> -->
               </div>
             </div>
           </div>

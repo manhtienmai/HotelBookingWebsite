@@ -2,6 +2,7 @@
 
 
 <script>
+
     function alert(type, msg) {
         let bs_class = (type == 'success') ? 'alert-success' : 'alert-danger';
         let element = document.createElement('div');
@@ -12,6 +13,12 @@
             </div>
         `;
         document.body.append(element);
+        setTimeout(remAlert, 2000) // Thời gian xóa thông báo
+    
+    }
+
+    function remAlert(){
+        document.getElementsByClassName('alert')[0].remove();
     }
 
     function setActive() {
