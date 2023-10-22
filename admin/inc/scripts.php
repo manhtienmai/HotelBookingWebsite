@@ -13,7 +13,7 @@
             </div>
         `;
         document.body.append(element);
-        setTimeout(remAlert, 2000) // Thời gian xóa thông báo
+        setTimeout(remAlert, 3500) // Thời gian xóa thông báo
     
     }
 
