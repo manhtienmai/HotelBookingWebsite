@@ -238,6 +238,44 @@
         </div>
     </div>
 
+    <!-- Manage room images modal -->
+                                    
+    <div class="modal fade" id="room-images" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Room Name</h5>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <div id = "image-alert"></div>
+                    <div class="border-bottom border-3 pb-3 mb-3">
+                        <form id = "add_image_form">
+                            <label class="form-label fw-blod">Add Image</label>
+                            <input type="file" name="image" accept="[.jpg, .png, .webp, .jpeg]" class="form-control shadow-none mb-3" required>
+                            <button class="btn custom-bg text-white shadow-none">ADD</button>
+                            <input type="hidden" name="room_id">
+                        </form>
+                    </div>
+                    <div class="table-responsive-lg" style="height: 350px; overflow-y: scroll;">
+                        <table class="table table-hover border text-center">
+                            <thead>
+                                <tr class="bg-dark text-light sticky-top">
+                                    <th scope="col" width="60%">Image</th>
+                                    <th scope="col">Thumb</th>
+                                    <th scope="col">Delete</th>      
+                                </tr>
+                            </thead>
+                            <tbody id="room-image-data">
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
     <?php require('inc/scripts.php'); ?>
     <script>
         let add_room_form = document.getElementById('add_room_form');
@@ -283,7 +321,8 @@
                 var modal = bootstrap.Modal.getInstance(myModal);
                 modal.hide();
 
-                if (this.responseText == 1) {
+                //this.responseText == 1
+                if (xhr.status === 200) {
                     alert('success', 'New room added!');
                     add_room_form.reset();
                     get_all_rooms();
@@ -319,6 +358,7 @@
             // update lai cu cho nguoi ta sua de
             xhr.onload = function() {
                 let data = JSON.parse(this.responseText);
+
                 edit_room_form.elements['name'].value = data.roomdata.name;
                 edit_room_form.elements['area'].value = data.roomdata.area;
                 edit_room_form.elements['price'].value = data.roomdata.price;
@@ -342,9 +382,6 @@
 
 
             }
-
-            
-
             xhr.send('get_room=' + id);
         }
 
@@ -357,6 +394,7 @@
             let data = new FormData();
             data.append('edit_room', '');
             data.append('room_id', edit_room_form.elements['room_id'].value);
+            data.append('name', edit_room_form.elements['name'].value);
             data.append('area', edit_room_form.elements['area'].value);
             data.append('price', edit_room_form.elements['price'].value);
             data.append('quantity', edit_room_form.elements['quantity'].value);
@@ -389,7 +427,8 @@
                 var modal = bootstrap.Modal.getInstance(myModal);
                 modal.hide();
 
-                if (this.responseText == 1) {
+                // this.responseText == 1
+                if (xhr.status === 200) {
                     alert('success', 'Room data edited!');
                     edit_room_form.reset();
                     get_all_rooms();
@@ -406,7 +445,8 @@
             xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
 
             xhr.onload = function() {
-                if (this.responseText == 1) {
+                // this.responseText == 1
+                if (xhr.status === 200) {
                     alert('success', 'Status toggled!');
                     get_all_rooms();
                 } else {
@@ -414,6 +454,130 @@
                 }
             }
             xhr.send('toggle_status=' + id + '&value=' + val);
+        }
+
+
+
+        let add_image_form = document.getElementById('add_image_form');
+
+        add_image_form.addEventListener('submit', function(e) {
+            e.preventDefault();
+            add_image();
+        });
+
+
+        function add_image() {
+            let data = new FormData();
+            data.append('image', add_image_form.elements['image'].files[0]);
+            data.append('room_id', add_image_form.elements['room_id'].value);
+            data.append('add_image', '');
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "ajax/rooms.php", true);
+            //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');   ko yêu cầu:))
+
+            xhr.onload = function () {
+                if (this.responseText == 'inv_img') {
+                    alert('error', 'Only JPG, WEBP, PNG, images are allowed!', 'image-alert'); // hàm bên essentials
+                } else if (this.responseText == "inv_size") {
+                    alert('error', 'Image should be less than 2 MB', 'image-alert');
+                } else if (this.responseText == "upd_failed") {
+                    alert('error', 'Image upload failed Server down', 'image-alert');
+                } else {
+                    alert('success', 'New image added!', 'image-alert');
+                    // thêm xong thêm vào folder và db
+                    // update image after add on web
+                    room_images(add_image_form.elements['room_id'].value, document.querySelector("#room-images .modal-title").innerText);
+                    add_image_form.reset();  
+                }
+            };
+            xhr.send(data);
+        }
+
+        function room_images(id,rname) {
+            document.querySelector("#room-images .modal-title").innerText = rname;
+            add_image_form.elements['room_id'].value = id;
+            //chỉnh với từng room 1 lấy tên của từng room thêm ảnh trên đó
+            add_image_form.elements['image'].value = '';
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "ajax/rooms.php", true);
+            xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+
+            xhr.onload = function() {
+                document.getElementById('room-image-data').innerHTML = this.responseText;
+            }
+            xhr.send('get_room_images=' + id);
+
+        }
+
+        function rem_image(img_id, room_id) {
+            let data = new FormData();
+            data.append('image_id', img_id);
+            data.append('room_id', room_id);
+            data.append('rem_image', '');
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "ajax/rooms.php", true);
+            //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');   ko yêu cầu:))
+
+            xhr.onload = function () {
+                //this.responseText == 1
+                if (xhr.status === 200) {
+                    alert('success', 'Image Removed!', 'image-alert');
+                    room_images(room_id,document.querySelector("#room-images .modal-title").innerText);
+                } else {
+                    alert('error', 'Image Remove Failed!', 'image-alert');
+                }
+            };
+            xhr.send(data);
+        }
+
+        function thumb_image(img_id, room_id) {
+            let data = new FormData();
+            data.append('image_id', img_id);
+            data.append('room_id', room_id);
+            data.append('thumb_image', '');
+
+            let xhr = new XMLHttpRequest();
+            xhr.open("POST", "ajax/rooms.php", true);
+            //xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');   ko yêu cầu:))
+
+            xhr.onload = function () {
+                //this.responseText == 1
+                if (xhr.status === 200) {
+                    alert('success', 'Image Thumbnail Changed!', 'image-alert');
+                    room_images(room_id,document.querySelector("#room-images .modal-title").innerText);
+
+                } else {
+                    alert('error', 'Thumbnail Update Failed!', 'image-alert');
+                }
+            };
+            xhr.send(data);
+        }
+
+        function remove_room(room_id) {
+
+            if(confirm("ARE YOU SURE, you want to delete this room?")) {
+                let data = new FormData();
+                data.append('room_id', room_id);
+                data.append('remove_room', '');
+
+                let xhr = new XMLHttpRequest();
+                xhr.open("POST", "ajax/rooms.php", true);
+
+                xhr.onload = function () {
+                    //this.responseText == 1
+                    if (xhr.status === 200) {
+                        alert('success', 'Room removed!');
+                        get_all_rooms();
+                    } else {
+                        alert('error', 'Room Removal Failed!');
+                    }
+                };
+                xhr.send(data);
+            }
+    
         }
         window.onload = function() {
             get_all_rooms();
