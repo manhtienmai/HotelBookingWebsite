@@ -30,23 +30,22 @@
   <div class="container">
     <div class="row">
       <?php
-      $res = selectAll('facilities');
-      $path = FACILITIES_IMG_PATH;
+        $res = selectAll('facilities');
+        $path = FACILITIES_IMG_PATH;
 
-      while ($row = mysqli_fetch_assoc($res)) {
-        echo <<<data
-          <div class="col-lg-4 col-md-6 mb-5 px-4">
-            <div class="bg-white rounded shadow border-top border-dark border-4 p-4 pop">
-              <div class="d-flex align-items-center mb-2">
-                <img src="$path$row[icon]" width="40px">
-                <h2 class="m-0 ms-3">$row[name]</h2>
+        while ($row = mysqli_fetch_assoc($res)) {
+          echo <<<data
+            <div class="col-lg-4 col-md-6 mb-5 px-4">
+              <div class="bg-white rounded shadow border-top border-dark border-4 p-4 pop">
+                <div class="d-flex align-items-center mb-2">
+                  <img src="$path$row[icon]" width="40px">
+                  <h2 class="m-0 ms-3">$row[name]</h2>
+                </div>
+                <p>$row[description]</p>
               </div>
-              <p>$row[description]</p>
-            </div>
-          </div>            
-          data;
-      }
-
+            </div>            
+            data;
+        }
       ?>
     </div>
   </div>
