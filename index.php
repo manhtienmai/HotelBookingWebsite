@@ -4,9 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>JW MARIOTT</title>
   <?php include('inc/links.php'); ?>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
+  <title><?php echo $settings_r['site_title'] ?> JW MARIOTT</title>
   <style>
     .availability-form {
       margin-top: -50px;
@@ -43,22 +43,22 @@
         }
         ?>
         <div class="swiper-slide">
-          <img src="images/carousel/IMG_40905.png" class="w-100 d-block">
+          <img src="images/carousel/IMG_49823.png" class="w-100 d-block">
         </div>
         <div class="swiper-slide">
-          <img src="images/carousel/IMG_15372.png" class="w-100 d-block">
+          <img src="images/carousel/IMG_19095.png" class="w-100 d-block">
         </div>
         <div class="swiper-slide">
-          <img src="images/carousel/IMG_55677.png" class="w-100 d-block">
+          <img src="images/carousel/IMG_20599.png" class="w-100 d-block">
         </div>
         <div class="swiper-slide">
-          <img src="images/carousel/IMG_62045.png" class="w-100 d-block">
+          <img src="images/carousel/IMG_92387.png" class="w-100 d-block">
         </div>
         <div class="swiper-slide">
-          <img src="images/carousel/IMG_93127.png" class="w-100 d-block">
+          <img src="images/carousel/IMG_69534.png" class="w-100 d-block">
         </div>
         <div class="swiper-slide">
-          <img src="images/carousel/IMG_99736.png" class="w-100 d-block">
+          <img src="images/carousel/IMG_49823.png" class="w-100 d-block">
         </div>
       </div>
     </div>
@@ -152,6 +152,18 @@
             $room_thumb = ROOMS_IMG_PATH . $thumb_res['image'];
           }
 
+          $book_btn = "";
+
+          if(!$settings_r['shutdown']){
+            $login = 0;
+            if(isset($_SESSION['login']) && $_SESSION['login'] == true) {
+              $login = 1;
+            }
+
+            $book_btn = "<button onclick='checkLoginToBook($login,$room_data[id])' 
+            class='btn btn-sm w-100 text-white custom-bg shadow-none mb-2'>Book Now";
+          }
+
           //print room card
           echo <<<data
                     <div class="col-lg-4 col-md-6 my-3">
@@ -235,7 +247,7 @@
 
         <div class="swiper-slide bg-white">
           <div class="profile d-flex align-items-center p-4">
-            <img src="images/facilities/IMG_47816.svg" width="30px">
+            <img src="images/facilities/IMG_64366.svg" width="30px">
             <h6 class="m-0 ms-2">Random user</h6>
           </div>
           <p>
@@ -252,7 +264,7 @@
         </div>
         <div class="swiper-slide bg-white">
           <div class="profile d-flex align-items-center p-4">
-            <img src="images/facilities/IMG_47816.svg" width="30px">
+            <img src="images/facilities/IMG_99754.svg" width="30px">
             <h6 class="m-0 ms-2">Random user</h6>
           </div>
           <p>
@@ -269,7 +281,7 @@
         </div>
         <div class="swiper-slide bg-white p-4">
           <div class="profile d-flex align-items-center p-4">
-            <img src="images/facilities/IMG_47816.svg" width="30px">
+            <img src="images/facilities/IMG_82111.svg" width="30px">
             <h6 class="m-0 ms-2">Random user</h6>
           </div>
           <p>
@@ -286,7 +298,7 @@
         </div>
         <div class="swiper-slide bg-white p-4">
           <div class="profile d-flex align-items-center p-4">
-            <img src="images/facilities/IMG_47816.svg" width="30px">
+            <img src="images/facilities/IMG_55799.svg" width="30px">
             <h6 class="m-0 ms-2">Random user</h6>
           </div>
           <p>

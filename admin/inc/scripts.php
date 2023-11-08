@@ -19,7 +19,7 @@
             document.getElementById(position).appendChild(element);
         }
         
-        setTimeout(remAlert, 2000) // Thời gian xóa thông báo
+        setTimeout(remAlert, 3000) // Thời gian xóa thông báo
     
     }
 

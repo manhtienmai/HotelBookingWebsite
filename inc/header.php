@@ -1,13 +1,4 @@
-<?php 
-    require('admin/inc/db_config.php');
-    require('admin/inc/essentials.php');
 
-    $contact_q = "SELECT * FROM `contact_details` WHERE `sr_no`=?";
-    $values = [1];
-    $contact_r = mysqli_fetch_assoc(select($contact_q, $values, 'i'));
-    //print_r($contact_r);
-    
-?>
 <nav id = "nav_bar" class="navbar navbar-expand-lg navbar-light bg-white px-lg-3 py-lg-2 shadow-sm sticky-top">
   <div class="container-fluid">
     <a class="navbar-brand h-font me-5 fw-bold fs-3" href="index.php">JW Marriott</a>
@@ -33,12 +24,35 @@
         </li>
       </ul>
       <form class="d-flex" role="search">
-        <button type="button" class="btn btn-outline-dark shadow-none me-3" data-bs-toggle="modal" data-bs-target="#loginModal">
-          Login
-        </button>
-        <button type="button" class="btn btn-outline-dark shadow-none" data-bs-toggle="modal" data-bs-target="#registerModal">
-          Register
-        </button>
+        <?php 
+           if(isset($_SESSION['login']) && $_SESSION['login'] == true)
+           {
+              $path = USERS_IMG_PATH;
+              echo<<< data
+                <div class="btn-group">
+                  <button type="button" class="btn btn-outline-dark shadow-none dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+                  <img src="{$path}{$_SESSION['uPic']}" style="width: 25px; height: 25px;" class="me-1">
+                  {$_SESSION['uName']}
+                  </button>
+                  <ul class="dropdown-menu dropdown-menu-lg-end">
+                      <li><a class="dropdown-item" href="profile.php">Profile</a></li>
+                      <li><a class="dropdown-item" href="bookings.php">Bookings</a></li>
+                      <li><a class="dropdown-item" href="logout.php">Logout</a></li>
+                  </ul>
+              </div>
+            data;
+           }else {
+            echo <<< data
+              <button type="button" class="btn btn-outline-dark shadow-none me-3" data-bs-toggle="modal" data-bs-target="#loginModal">
+                Login
+              </button>
+              <button type="button" class="btn btn-outline-dark shadow-none" data-bs-toggle="modal" data-bs-target="#registerModal">
+                Register
+              </button>
+            data;
+           }
+        ?>
+        
       </form>
     </div>
   </div>
@@ -47,7 +61,7 @@
 <div class="modal fade" id="loginModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
-      <form>
+      <form id="login-form" class="login-form">
         <div class="modal-header">
           <h1 class="modal-title d-flex align-items-center">
           <i class="bi bi-person-circle fs-5 me-5">User login</i>
@@ -56,12 +70,12 @@
         </div>
         <div class="modal-body">
           <div class="mb-3">
-            <label class="form-label">Email address</label>
-            <input type="email" class="form-control shadow-none">
+            <label class="form-label">Email/Mobile</label>
+            <input type="text" name="email_mob" required class="form-control shadow-none">
           </div>
           <div class="mb-4">
             <label class="form-label">Password</label>
-            <input type="passowrd" class="form-control shadow-none">
+            <input type="password" name="pass" required class="form-control shadow-none">
           </div>
           <div class="d-flex align-items-center justify-content-between mb-2">
             <button type="submit" class="btn btn-dark shadow-none">LOGIN</button>
@@ -77,7 +91,7 @@
 <div class="modal fade" id="registerModal" data-bs-backdrop="static" data-bs-keyboard="false" tabindex="-1" aria-labelledby="staticBackdropLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
     <div class="modal-content">
-      <form>
+      <form id="register-form">
         <div class="modal-header">
           <h1 class="modal-title d-flex align-items-center">
           <i class="bi bi-person-lines-fill fs-3 me-5">User Registration</i>
@@ -92,37 +106,45 @@
             <div class="row">
               <div class="col-md-6 ps-0">
                 <label class="form-label ps-0">Name</label>
-                <input type="text" class="form-control shadow-none">
+                <input name="name" type="text" class="form-control shadow-none" required>
               </div>
               <div class="col-md-6 ps-0 mb-3">
                 <label class="form-label ps-0">Email</label>
-                <input type="email" class="form-control shadow-none">
+                <input name="email" type="email" class="form-control shadow-none" required>
               </div>
               <div class="col-md-6 ps-0 mb-3">
                 <label class="form-label">Phone number</label>
-                <input type="number" class="form-control shadow-none">
+                <input name="phonenum" type="number" class="form-control shadow-none" required>
               </div>
               <div class="col-md-6 ps-0 mb-3">
                 <label class="form-label ps-0">Picture</label>
-                <input type="file" class="form-control shadow-none">
+                <input name="profile" type="file" accept=".jpg, .jpeg, .png, .webp" class="form-control shadow-none" required>
               </div>
               <div class="col-md-12 ps-0 mb-3">
                 <label class="form-label">Address</label>
-                <textarea class="form-control shadow-none" rows="1"></textarea>
+                <textarea name="address" class="form-control shadow-none" rows="1" required></textarea>
+              </div>
+              <div class="col-md-6 ps-0 mb-3">
+                <label class="form-label">Pincode</label>
+                <input name="pincode" type="number" class="form-control shadow-none" required>
+              </div>
+              <div class="col-md-6 ps-0 mb-3">
+                <label class="form-label">Date of Birth</label>
+                <input name="dob" type="date" class="form-control shadow-none" required>
               </div>
               <div class="col-md-6 ps-0 mb-3">
                 <label class="form-label">Password</label>
-                <input type="password" class="form-control shadow-none">
+                <input name="pass" type="password" class="form-control shadow-none" required>
               </div>
               <div class="col-md-6 ps-0 mb-3">
                 <label class="form-label">Confirm password</label>
-                <input type="password" class="form-control shadow-none">
+                <input name="cpass" type="password" class="form-control shadow-none" required>
               </div>
             </div>  
           </div>
         </div>              
-        <div class="text-center">
-          <button type="submit" class="btn btn-dark shadow-none mb-3">REGISTER</button>
+        <div class="text-center my-1">
+          <button type="submit" class="btn btn-dark shadow-none">REGISTER</button>
         </div>          
       </form>
     </div>

@@ -4,8 +4,8 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>JW MARIOTT - ROOMS</title>
   <?php include('inc/links.php'); ?>
+  <title><?php echo $settings_r['site_title'] ?> JW MARIOTT - ROOMS</title>
 </head>
 
 <body class="bg-light">
@@ -108,6 +108,17 @@
               $room_thumb = ROOMS_IMG_PATH . $thumb_res['image'];
             }
 
+          $book_btn = "";
+
+          if(!$settings_r['shutdown']){
+            $login = 0;
+            if(isset($_SESSION['login']) && $_SESSION['login'] == true) {
+              $login = 1;
+            }
+
+            $book_btn = "<button onclick='checkLoginToBook($login,$room_data[id])' 
+            class='btn btn-sm w-100 text-white custom-bg shadow-none mb-2'>Book Now";
+          }
             //print room card
             echo <<<data
               <div class="card mb-4 border-0 shadow">

@@ -3,9 +3,9 @@
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>JW MARIOTT - ABOUT</title>
     <?php include('inc/links.php'); ?>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css"/>
+    <title><?php echo $settings_r['site_title'] ?>JW MARIOTT - ABOUT</title>
   <style>
     .box{
       border-top-color: var(--teal) !important;

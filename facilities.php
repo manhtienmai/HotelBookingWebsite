@@ -4,8 +4,9 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>JW MARIOTT - FACILITIES</title>
   <?php include('inc/links.php'); ?>
+  <title><?php echo $settings_r['site_title'] ?>JW MARIOTT - FACILITIES</title>
+
   <style>
     .pop:hover {
       border-top-color: var(--teal) !important;
