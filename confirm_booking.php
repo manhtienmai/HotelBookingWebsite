@@ -35,6 +35,17 @@
 
   $room_data = mysqli_fetch_assoc($room_res);
 
+  $_SESSION['room'] = [
+    "id" => $room_data['id'],
+    "name" => $room_data['name'],
+    "price" => $room_data['price'],
+    "payment" => null,
+    "available" => false,
+  ];
+
+  $user_res = select("SELECT * FROM `user_cred` WHERE `id` = ? LIMIT 1",
+  [$_SESSION['uId']], "i");
+  $user_data = mysqli_fetch_assoc($user_res);
 
   ?>
 
@@ -42,170 +53,141 @@
     <div class="row">
 
       <div class="col-12 my-5 mb-4 px-4">
-        <h2 class="fw-bold"><?php echo $room_data['name'] ?></h2>
+        <h2 class="fw-bold">CONFIRM BOOKING</h2>
         <div style="font-size: 14px;">
           <a href="index.php" class="text-secondary text-decoration-none">HOME</a>
           <span class="text-secondary"> > </span>
           <a href="room.php" class="text-secondary text-decoration-none">ROOMS</a>
+          <span class="text-secondary"> > </span>
+          <a href="#" class="text-secondary text-decoration-none">CONFIRM</a>
         </div>
       </div>
 
       <div class="col-lg-7 col-md-12 px-4">
-        <div id="roomCarousel" class="carousel slide" data-bs-ride="carousel">
-          <div class="carousel-inner">
-            <?php
-            $room_img = ROOMS_IMG_PATH . "thumbnail.jpg";
-            $img_q = mysqli_query($conn, "SELECT * FROM `room_images` 
-              WHERE `room_id` = '$room_data[id]'");
-            if (mysqli_num_rows($img_q) > 0) {
-              $active_class = 'active';
-              while ($img_res = mysqli_fetch_assoc($img_q)) {
-                echo "<div class='carousel-item active'>
-                  <img src='" . ROOMS_IMG_PATH . $img_res['image'] . "' class='d-block w-100 rounded'>
-                </div>
-                ";
-                $active_class = '';
-              }
-            } else {
-              echo "<div class='carousel-item active'>
-                <img src='$room_img' class='d-block w-100'>
-              </div>";
-            }
+        <?php
+          $room_thumb = ROOMS_IMG_PATH . "thumbnail.jpg";
+          $thumb_q = mysqli_query($conn, "SELECT * FROM `room_images` 
+              WHERE `room_id` = '$room_data[id]' 
+              AND `thumb` = '1'");
+          if (mysqli_num_rows($thumb_q) > 0) {
+            $thumb_res = mysqli_fetch_assoc($thumb_q);
+            $room_thumb = ROOMS_IMG_PATH . $thumb_res['image'];
+          }
 
-            ?>
-          </div>
-          <button class="carousel-control-prev" type="button" data-bs-target="#roomCarousel" data-bs-slide="prev">
-            <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Previous</span>
-          </button>
-          <button class="carousel-control-next" type="button" data-bs-target="#roomCarousel" data-bs-slide="next">
-            <span class="carousel-control-next-icon" aria-hidden="true"></span>
-            <span class="visually-hidden">Next</span>
-          </button>
-        </div>
+          echo <<< data
+            <div class="card p-3 shadow-sm rouded">
+              <img src="$room_thumb" class="img-fluid rounded mb-3">
+              <h5>$room_data[name]</h5>
+              <h6>$$room_data[price] per night</h6>
+            </div>
+          data;
+        ?>
       </div>
 
       <div class="col-lg-5 col-md-12 px-4">
         <div class="card mb-4 border-0 shadow-sm rounded-3">
           <div class="card-body">
-            <?php
-            echo <<<price
-                   <h4>$$room_data[price] per night</h4>
-                price;
-
-            echo <<<rating
-                  <div class="mb-3">
-                    <i class="bi bi-star-fill text-warning"></i>
-                    <i class="bi bi-star-fill text-warning"></i>
-                    <i class="bi bi-star-fill text-warning"></i>
-                    <i class="bi bi-star-fill text-warning"></i>
+            <form action="#" id="booking_form">
+              <h6 class="mb-3">BOOKING DETAILS</h6>
+              <div class= "row">
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Name</label>
+                  <input name="name" type="text" value="<?php echo $user_data['name']?>" class="form-control shadow-none" required>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Phone Number</label>
+                  <input name="phonenum" type="number" value="<?php echo $user_data['phonenum']?>" class="form-control shadow-none" required>  
+                </div>
+                <div class="col-md-12 mb-3">
+                  <label class="form-label">Address</label>
+                  <textarea name="address" class="form-control shadow-none" rows="1" required>
+                    <?php
+                      echo $user_data['address'] 
+                    ?>
+                  </textarea>
+                </div>
+                <div class="col-md-6 mb-3">
+                  <label class="form-label">Check-in</label>
+                  <input name="checkin" onchange="check_availability()" type="date" class="form-control shadow-none" required>  
+                </div>
+                <div class="col-md-6 mb-4">
+                  <label class="form-label">Check-out</label>
+                  <input name="checkout" onchange="check_availability()" type="date" class="form-control shadow-none" required>  
+                </div>
+                <div class="col-12">
+                  <div class="spinner-border text-info mb-3 d-none" id="info_loader" role="status">
+                    <span class="visually-hidden">Loading...</span>
                   </div>
-                rating;
-
-            $fea_q = mysqli_query($conn, "SELECT f.name
-                  from `features` f
-                  INNER JOIN `room_features` rfea on f.id = rfea.features_id
-                  WHERE rfea.room_id = '$room_data[id]'");
-
-            $features_data = "";
-            while ($fea_row = mysqli_fetch_assoc($fea_q)) {
-              $features_data .= "<span class='badge rounded-pill bg-light text-dark text-wrap me-1 mb-1'>
-                    $fea_row[name]
-                  </span>";
-            }
-
-            echo <<<features
-              <div class="mb-3">
-                <h6 class="mb-1">Features</h6>
-                  $features_data
+                  
+                  <h6 class="mb-3 text-danger" id="pay_info">Provide check-in & check-out date!</h6>
+                  
+                  <button name="pay_now" class="btn w-100 text-white custom-bg shadow-none mb-1" disabled></button>
+                
+                </div>
+                
               </div>
-            features;
-
-            $fac_q = mysqli_query($conn, "SELECT f.name
-            FROM `facilities` f
-            INNER JOIN `room_facilities` rfac on f.id = rfac.facilities_id
-            WHERE rfac.room_id = $room_data[id]");
-
-            $facilities_data = "";
-            while ($fac_row = mysqli_fetch_assoc($fac_q)) {
-              $facilities_data .= "<span class='badge rounded-pill bg-light text-dark text-wrap me-1 mb-1'>
-                $fac_row[name]
-              </span>";
-            }
-
-            echo <<<facilities
-              <div class="mb-3">
-                <h6 class="mb-1">Facilities</h6>
-                  $facilities_data
-              </div>
-            facilities;
-
-            echo <<<guests
-              <div class="mb-3">
-                <h6 class="mb-1">Guests</h6>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  $room_data[adult] Adults
-                </span>
-                <span class="badge rounded-pill bg-light text-dark text-wrap">
-                  $room_data[children] Chidren
-                </span>
-              </div>
-            guests;
-
-            echo <<<area
-              <div class="mb-3">
-                <h6 class="mb-1">Area</h6>
-                <span class='badge rounded-pill bg-light text-dark text-wrap me-1 mb-1'>
-                  $room_data[area] sq. ft.
-                </span>
-              </div>
-            area;
-
-            echo<<<book
-              <button onclick='checkLoginToBook($login,$room_data[id])' class="btn w-100 text-white custom-bg shadow-none mb-1">Book Now</button>
-
-            book;
-
-
-            ?>
+            </form>
           </div>
         </div>
 
       </div>
-      <div class="col-12 mt-4 px-4">
-        <div class="mb-5">
-          <h5>Description</h5>
-          <p>
-            <?php echo $room_data['description'] ?>
-          </p>
-        </div>
-      </div>
-
-      <div>
-        <h5 class="mb-3">Reviews & Ratings</h5>
-        <div>
-          <div class="d-flex align-items-center mb-2">
-            <img src="images/facilities/IMG_47816.svg" width="30px">
-            <h6 class="m-0 ms-2">Random user</h6>
-          </div>
-          <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Rerum odit obcaecati maiores recusandae ratione excepturi minus deleniti expedita necessitatibus voluptate quia animi sed cumque,
-            earum exercitationem sequi officia labore qui.
-          </p>
-          <div class="rating">
-            <i class="bi bi-star-fill text-warning"></i>
-            <i class="bi bi-star-fill text-warning"></i>
-            <i class="bi bi-star-fill text-warning"></i>
-            <i class="bi bi-star-fill text-warning"></i>
-          </div>
-        </div>
-      </div>
+      
 
     </div>
   </div>
 
-  <?php include('inc/footer.php'); ?>
+  <?php require('inc/footer.php'); ?>
+  <script>
+    let booking_form = document.getElementById('booking_form');
+    let info_loader = document.getElementById('info_loader');
+    let pay_info = document.getElementById('pay_info');
+    
+    function check_availability() {
+      let checkin_val = booking_form.elements['checkin'].value;
+      let checkout_val = booking_form.elements['checkout'].value; 
+      booking_form.elements['pay_now'].setAttribute('disabled', true);
+
+      if (checkin_val!= '' && checkout_val != '') {
+        //d-none bi an di
+        pay_info.classList.add('d-none');
+        pay_info.classList.replace('text-dark', 'text-danger');
+
+        // quay spinner được giải phóng
+        info_loader.classList.remove('d-none');
+
+
+        let data = new FormData();
+        
+        data.append('check_availability','');
+        data.append('check_in',checkin_val);
+        data.append('check_out',checkout_val);
+
+        let xhr = new XMLHttpRequest();
+        xhr.open("POST", "ajax/confirm_booking.php", true);
+
+        xhr.onload = function() {
+          let data = JSON.parse(this.responseText);
+          if (data.status == 'check-in-out-equal') {
+            pay_info.innerText = "You cannot check-out date on the same day!";
+          } else if (data.status = 'check_out_earlier') {
+            pay_info.innerText = "You cannot check-out date is earlier than check-in date!";
+          } else if (data.status = 'check_in_earlier') {
+            pay_info.innerText = "You cannot check-in date is earlier than today's date!";
+          } else if (data.status = 'unvailabel') {
+            pay_info.innerText = "Room not availabel for this check-in date!";
+          } else {
+            pay_info.innerHTML = "No. of Days: "+ data.days + "<br>Total Amount to Pay: $" + data.payment;
+            pay_info.classList.replace('text-danger', 'text-dark');
+            booking_form.elements['pay_now'].removeAttribute('disabled');
+          }
+          pay_info.classList.remove('d-none');
+          info_loader.classList.add('d-none');
+        }
+        xhr.send(data);
+      }
+    }
+
+  </script>    
 
 </body>
 
