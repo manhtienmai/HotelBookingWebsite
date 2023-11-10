@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <?php include('inc/links.php'); ?>
-  <title><?php echo $settings_r['site_title'] ?> JW MARIOTT - ROOMS</title>
+  <title><?php echo $settings_r['site_title'] ?> - ROOMS</title>
 </head>
 
 <body class="bg-light">
@@ -148,7 +148,7 @@
                   </div>
                   <div class="col-md-2 mt-lg-0 mt-md-0 mt-4 text-center">
                     <h6 class="mb-4">$$room_data[price] per night</h6>
-                    <a href="#" class="shadow-none mb-2 w-100 btn btn-sm text-white custom-bg">Book Now</a>
+                    $book_btn
                     <a href="room_details.php?id=$room_data[id]" class="btn btn-sm w-100 btn-outline-dark shadow-none">More details</a>
                   </div>
                 </div>

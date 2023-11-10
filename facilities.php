@@ -5,7 +5,7 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <?php include('inc/links.php'); ?>
-  <title><?php echo $settings_r['site_title'] ?>JW MARIOTT - FACILITIES</title>
+  <title><?php echo $settings_r['site_title'] ?> - FACILITIES</title>
 
   <style>
     .pop:hover {

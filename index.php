@@ -6,7 +6,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <?php include('inc/links.php'); ?>
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/swiper@10/swiper-bundle.min.css" />
-  <title><?php echo $settings_r['site_title'] ?> JW MARIOTT</title>
+  <title><?php echo $settings_r['site_title'] ?> - HOME</title>
   <style>
     .availability-form {
       margin-top: -50px;
@@ -199,7 +199,7 @@
                           </span>
                         </div>
                         <div class="d-flex justify-content-evenly mb-2">
-                          <a href="#" class="btn btn-sm text-white custom-bg shadow-none">Book Now</a>
+                          $book_btn
                           <a href="room_details.php?id=$room_data[id]" class="btn btn-sm btn-outline-dark shadow-none">More details</a>
                         </div>
                       </div>
@@ -248,7 +248,7 @@
         <div class="swiper-slide bg-white">
           <div class="profile d-flex align-items-center p-4">
             <img src="images/facilities/IMG_64366.svg" width="30px">
-            <h6 class="m-0 ms-2">Random user</h6>
+            <h6 class="m-0 ms-2">Smith</h6>
           </div>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.
@@ -265,7 +265,7 @@
         <div class="swiper-slide bg-white">
           <div class="profile d-flex align-items-center p-4">
             <img src="images/facilities/IMG_99754.svg" width="30px">
-            <h6 class="m-0 ms-2">Random user</h6>
+            <h6 class="m-0 ms-2">Chee</h6>
           </div>
           <p>
             Lorem ipsum dolor sit amet consectetur adipisicing elit.

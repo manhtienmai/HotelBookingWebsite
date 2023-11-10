@@ -77,7 +77,7 @@ if (isset($_POST['register'])) {
     $hashed_password = password_hash($data['pass'], PASSWORD_DEFAULT);
     $default_picture = 'C:\xampp\htdocs\HotelBookingWebsite\images\users\IMG_91004.jpeg';
     $res = insert("INSERT INTO `user_cred`(`name`, `email`, `phonenum`, `password`, `profile`) VALUES (?, ?, ?, ?, ?)", 
-    [$data['name'], $data['email'], $data['phonenum'], $hashed_password, $default_picture], "sssss");
+    [$data['name'], $data['email'], $data['phonenum'], $hashed_password, $img], "sssss");
 
     if ($res > 0) {
         echo 'reg_success';
