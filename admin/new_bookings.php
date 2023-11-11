@@ -23,7 +23,7 @@
     <div class="container-fuild" id="main_content">
         <div class="row">
             <div class="col-lg-10 ms-auto p-4 overflow-hidden">
-                <h3 class="mb-4">New booking</h3>
+                <h3 class="mb-4">NEW BOOKING</h3>
 
                 <div class="card border-0 shadow mb-4">
                     <div class="card-body">
@@ -32,7 +32,7 @@
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-hover border">
+                            <table class="table table-hover border" style="min-width: 1100px;">
                                 <thead>
                                     <tr class="bg-dark text-light">
                                         <th scope="col">#</th>
