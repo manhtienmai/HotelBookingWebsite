@@ -1,10 +1,13 @@
 <?php
-    require('inc/essentials.php');
-    require('inc/db_config.php');
-    adminLogin();
+    require('admin/inc/essentials.php');
+    require('admin/inc/db_config.php');
+
+    session_start();
+
     if(!(isset($_SESSION['login']) && $_SESSION['login']==true)){
         redirect('index.php');
     }
+
     if(isset($_GET['gen_pdf']) && isset($_GET['id'])){
         $frm_data = filteration($_GET);
 
@@ -17,12 +20,10 @@
         AND bo.booking_id = '$frm_data[id]'";
 
         $res = mysqli_query($conn,$query);
-
-        
         $total_rows = mysqli_num_rows($res);
 
         if($total_rows== 0) {
-            header('location: dashboard.php');
+            header('location: index.php');
             exit;
         }
 
@@ -84,6 +85,6 @@
 
         echo $table_data;
     }else{
-        header('location: dashboard.php');
+        header('location: index.php');
     }
 ?>
