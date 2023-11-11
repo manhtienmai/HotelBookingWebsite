@@ -44,7 +44,7 @@ function get_general() {
             shutdown_toggle.checked = true;
             shutdown_toggle.value = 1;
         }
-    };
+    }
     xhr.send('get_general');
     // cần thiết kể gửi yêu cầu lên server
 }
