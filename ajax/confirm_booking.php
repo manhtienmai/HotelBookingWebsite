@@ -2,7 +2,7 @@
     require_once('../admin/inc/db_config.php');
     require('../admin/inc/essentials.php');
 
-    date_default_timezone_set("Asia/Hanoi");
+    date_default_timezone_set("Asia/Kolkata");
 
     if(isset($_POST['check_availability'])) {
         $frm_data = filteration($_POST);
@@ -16,7 +16,7 @@
         $checkin_date = new DateTime($frm_data['check_in']);
         $checkout_date = new DateTime($frm_data['check_out']);
 
-        if($checkin_date = $checkout_date) {
+        if($checkin_date == $checkout_date) {
             $status = 'check_in_out_equal';
             $result = json_encode(["status"=>$status]);
 

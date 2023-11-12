@@ -114,14 +114,15 @@
                   <label class="form-label">Check-out</label>
                   <input name="checkout" onchange="check_availability()" type="date" class="form-control shadow-none" required>  
                 </div>
+                
                 <div class="col-12">
                   <div class="spinner-border text-info mb-3 d-none" id="info_loader" role="status">
                     <span class="visually-hidden">Loading...</span>
                   </div>
                   
                   <h6 class="mb-3 text-danger" id="pay_info">Provide check-in & check-out date!</h6>
+                  <button name="pay_now" class="btn w-100 text-white custom-bg shadow-none mb-1"  >Pay now</button>
                   
-                  <button name="pay_now" class="btn w-100 text-white custom-bg shadow-none mb-1" disabled></button>
                 
                 </div>
                 
