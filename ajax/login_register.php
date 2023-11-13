@@ -21,14 +21,8 @@ if (isset($_POST['login'])) {
             echo 'inactive';
             exit;
         } else {
-            // if (!password_verify($data['pass'], $u_fetch['password'])) {
-            //   error_log('Password verification failed for user: ' . $data['email_mob']);
-            //   echo 'invalid_pass';
-            //   exit; 
 
             if ($data['pass'] !== $u_fetch['password']) {
-              error_log('Entered password: ' . $data['pass']); // For debugging purposes only, remove after
-              error_log('Stored password from DB: ' . $u_fetch['password']); // For debugging purposes only, remove after
               error_log('Password verification failed for user: ' . $data['email_mob']);
               echo 'invalid_pass';
               exit; 
@@ -40,7 +34,7 @@ if (isset($_POST['login'])) {
                 $_SESSION['uPic'] = $u_fetch['profile'];
                 $_SESSION['uPhone'] = $u_fetch['phonenum'];
                 echo "login_success";
-                exit; // Exit after successful login
+                exit;
             }
         }
     }

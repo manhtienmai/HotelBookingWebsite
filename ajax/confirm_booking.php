@@ -1,16 +1,12 @@
 <?php
     require_once('../admin/inc/db_config.php');
     require('../admin/inc/essentials.php');
-
     date_default_timezone_set("Asia/Kolkata");
 
     if(isset($_POST['check_availability'])) {
         $frm_data = filteration($_POST);
         $result = "";
         $status = "";
-
-        // check in & out validations
-       
 
         $today_date = new DateTime(date("Y-m-d"));
         $checkin_date = new DateTime($frm_data['check_in']);
@@ -28,7 +24,7 @@
             $result = json_encode(["status"=>$status]);
         }
         // check booking availability if status is blank else return the error
-        if ($stauts != '') {
+        if ($status != '') {
             echo $result;
         } else {
             session_start();
@@ -39,10 +35,8 @@
                 AND check_out > ? AND check_in < ?";
 
             $value = ['booked',$_SESSION['room']['id'],$frm_data['check_in'],$frm_data['check_out']];
-        
             $tb_fetch = mysqli_fetch_assoc(select($tb_query,$value,'siss'));
-
-            $rq_result = select("SELECT `quantity` FROM `room` WHERE `id`=?",[$_SESSION['room']['id']],'i');
+            $rq_result = select("SELECT `quantity` FROM `rooms` WHERE `id`=?",[$_SESSION['room']['id']],'i');
             $rq_fetch = mysqli_fetch_assoc($rq_result);
 
             if(($rq_fetch['quantity']-$tb_fetch['total_bookings'])==0){
@@ -54,10 +48,8 @@
 
             $count_days = date_diff($checkin_date, $checkout_date)-> days;
             $payment = $_SESSION['room']['price'] * $count_days;
-
             $_SESSION['room']['payment'] = $payment;
             $_SESSION['room']['availabel'] = true;
-
             $result = json_encode(["status"=>'availabel', "days"=>$count_days, "payment"=>$payment]);
             echo $result;
         }

@@ -152,7 +152,9 @@
                 </div>
                 <div class='col-md-2 mt-lg-0 mt-md-0 mt-4 text-center'>
                   <h6 class='mb-4'>$$room_data[price] per night</h6>
-                  $book_btn
+                  <div>
+                    $book_btn
+                  </div>
                   <a href='room_details.php?id=$room_data[id]' class='btn btn-sm w-100 btn-outline-dark shadow-none'>More details</a>
                 </div>
               </div>

@@ -41,7 +41,7 @@
 
 <script>
   function setActive(){
-    let navbar = document.getElementById('nav-bar');
+    let navbar = document.getElementById('nav_bar');
     let a_tags = navbar.getElementsByTagName('a');
 
     for(i = 0; i<a_tags.length;i++){
@@ -129,107 +129,63 @@
     xhr.send(data);
   })
 
-  // let login_form =document.getElementById('login-form');
-
-  // login_form.addEventListener('submit', (e) => {
-  //   e.preventDefault();
-
-  //   let data = new FormData();
-
-  //   data.append('email_mob', login_form.elements['email_mob'].value);
-  //   data.append('pass', login_form.elements['pass'].value);
-  //   data.append('login', '');
-
-  //   var myModal = document.getElementById('loginModal');
-  //   var modal = bootstrap.Modal.getInstance(myModal);
-  //   modal.hide();
-
-  //   let xhr = new XMLHttpRequest();
-  //   xhr.open("POST", "ajax/login_register.php", true);
-
-  //   xhr.onload = function() {
-  //     console.log(this.responseText);
-  //     if(this.responseText == 'inv_email_mob') {
-  //       alert('error', "Invalid Email or Mobile number!");
-  //     }else if(this.responseText == 'not_verified') {
-  //       alert('error', "Email is not verified!");
-  //     }else if(this.responseText ==  'inactive') {
-  //       alert('error', "Account Suspended!");
-  //     }else if(this.responseText ==  'invalid_pass') {
-  //       alert('error', "Incorrect password!");
-  //     }else {
-  //       let fileurl = window.location.href.split('/').pop().split('?').shift();
-  //       if(fileurl == 'room_details.php'){
-  //         window.location =window.location.href;
-  //       }
-  //       window.location = window.location.pathname;
-  //     }
-  //   }
-  //   // Error Event
-  //   xhr.onerror = function() {
-  //   console.error("Error during the AJAX request.");
-  //   alert("Error during the AJAX request.");
-  // };
-  //   xhr.send(data);
-  // });
   let login_form = document.getElementById('login-form');
 
-login_form.addEventListener('submit', (e) => {
-  e.preventDefault();
+  login_form.addEventListener('submit', (e) => {
+    e.preventDefault();
 
-  let data = new FormData();
-  data.append('email_mob', login_form.elements['email_mob'].value);
-  data.append('pass', login_form.elements['pass'].value);
-  data.append('login', '');
+    let data = new FormData();
+    data.append('email_mob', login_form.elements['email_mob'].value);
+    data.append('pass', login_form.elements['pass'].value);
+    data.append('login', '');
 
-  var myModal = document.getElementById('loginModal');
-  var modal = bootstrap.Modal.getInstance(myModal);
-  modal.hide();
+    var myModal = document.getElementById('loginModal');
+    var modal = bootstrap.Modal.getInstance(myModal);
+    modal.hide();
 
-  let xhr = new XMLHttpRequest();
-  xhr.open("POST", "ajax/login_register.php", true);
+    let xhr = new XMLHttpRequest();
+    xhr.open("POST", "ajax/login_register.php", true);
 
-  xhr.onload = function () {
-    console.log(this.responseText); // For debugging purpose
-    let responseText = this.responseText.trim(); // Trim any whitespace from the response
+    xhr.onload = function () {
+      console.log(this.responseText);
+      let responseText = this.responseText.trim(); // Trim any whitespace from the response
 
-    switch (responseText) {
-      case 'inv_email_mob':
-        alert("Invalid Email or Mobile number!");
-        break;
-      case 'not_verified':
-        alert("Email is not verified!");
-        break;
-      case 'inactive':
-        alert("Account Suspended!");
-        break;
-      case 'invalid_pass':
-        alert("Incorrect password!");
-        break;
-      case 'login_success':
-        // Redirect based on the current URL or simply reload the page
-        let currentURL = window.location.href;
-        let fileurl = currentURL.split('/').pop().split('?').shift();
+      switch (responseText) {
+        case 'inv_email_mob':
+          alert("Invalid Email or Mobile number!");
+          break;
+        case 'not_verified':
+          alert("Email is not verified!");
+          break;
+        case 'inactive':
+          alert("Account Suspended!");
+          break;
+        case 'invalid_pass':
+          alert("Incorrect password!");
+          break;
+        case 'login_success':
+          // Redirect based on the current URL or simply reload the page
+          let currentURL = window.location.href;
+          let fileurl = currentURL.split('/').pop().split('?').shift();
 
-        if (fileurl === 'room_details.php') {
-          window.location.reload();
-        } else {
-          window.location = window.location.pathname;
-        }
-        break;
-      default:
-        alert("An unknown error occurred!");
-        break;
-    }
-  };
+          if (fileurl === 'room_details.php') {
+            window.location.reload();
+          } else {
+            window.location = window.location.pathname;
+          }
+          break;
+        default:
+          alert("An unknown error occurred!");
+          break;
+      }
+    };
 
-  xhr.onerror = function () {
-    console.error("Error during the AJAX request.");
-    alert("Error during the AJAX request.");
-  };
+    xhr.onerror = function () {
+      console.error("Error during the AJAX request.");
+    };
 
-  xhr.send(data);
-});
+    xhr.send(data);
+  });
 
   function checkLoginToBook(status, room_id) {
     if (status) {

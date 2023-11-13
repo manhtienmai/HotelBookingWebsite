@@ -85,7 +85,7 @@ function upd_shutdown(val) {
         if (this.responseText == 1 && general_data.shutdown == 0) {
             alert('success', "Site has been shutdown!");
         } else {
-            alert('success', "Shutdown mode oof!");
+            alert('success', "Shutdown mode off!");
         }
         get_general();
     };

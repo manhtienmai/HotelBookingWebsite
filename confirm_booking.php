@@ -47,6 +47,41 @@
   [$_SESSION['uId']], "i");
   $user_data = mysqli_fetch_assoc($user_res);
 
+  $frm_data = filteration($_POST);
+  if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pay_now'])) {
+    echo "Form submitted successfully!";
+    $checkin_date = new DateTime($frm_data['checkin']);
+    $checkout_date = new DateTime($frm_data['checkout']);
+    $interval = $checkin_date->diff($checkout_date);
+    $number_of_nights = $interval->days;
+    $total_pay = $_SESSION['room']['price'] * $number_of_nights;
+    $trans_amt = $total_pay;
+    if(isset($_SESSION['room']['id'], $_SESSION['room']['name'], $_SESSION['room']['price'])) {  
+      $query1 = "INSERT INTO `booking_order`(`room_id`, `user_id`, `check_in`, `check_out`, `arrival`, `refund`, `booking_status`, `order_id`, `trans_id`, `trans_amt`, `trans_status`, `trans_resp_msg`, `datentime`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+      $arrival = 1; 
+      $refund = 0;
+      $booking_status = 'Success';
+      $order_id = generateOrderId(); 
+      $trans_id = "10101"; 
+      $trans_status = 'pending';
+      $trans_resp_msg = 'Payment processed successfully';
+      $datentime = date('Y-m-d'); 
+        
+      insert($query1, [$_SESSION['room']['id'], $_SESSION['uId'], $frm_data['checkin'], $frm_data['checkout'], 
+        $arrival, $refund, $booking_status, $order_id, $trans_id, $trans_amt, $trans_status, $trans_resp_msg, $datentime], 'iissiisiiisss');
+      $booking_id = mysqli_insert_id($conn);
+      $room_no = "101"; 
+
+      $query2 = "INSERT INTO `booking_details`(`booking_id`, `room_name`, `price`, `total_pay`, `room_no`, `username`, `phonenum`, `address`) VALUES (?,?,?,?,?,?,?,?)";
+      insert($query2, [$booking_id, $_SESSION['room']['name'], $_SESSION['room']['price'], $total_pay, $room_no, $frm_data['name'], $frm_data['phonenum'], $frm_data['address']], 'isiiisss');
+    }
+    else {
+          echo "Session variables not set.";
+    }   
+  }
+  function generateOrderId() {
+      return rand(1, 1000);
+  }
   ?>
 
   <div class="container">
@@ -87,7 +122,7 @@
       <div class="col-lg-5 col-md-12 px-4">
         <div class="card mb-4 border-0 shadow-sm rounded-3">
           <div class="card-body">
-            <form action="#" id="booking_form">
+            <form action="" id="booking_form" method="POST">
               <h6 class="mb-3">BOOKING DETAILS</h6>
               <div class= "row">
                 <div class="col-md-6 mb-3">
@@ -122,18 +157,13 @@
                   
                   <h6 class="mb-3 text-danger" id="pay_info">Provide check-in & check-out date!</h6>
                   <button name="pay_now" class="btn w-100 text-white custom-bg shadow-none mb-1"  >Pay now</button>
-                  
-                
                 </div>
-                
               </div>
             </form>
           </div>
         </div>
 
       </div>
-      
-
     </div>
   </div>
 
@@ -156,7 +186,6 @@
         // quay spinner được giải phóng
         info_loader.classList.remove('d-none');
 
-
         let data = new FormData();
         
         data.append('check_availability','');
@@ -170,11 +199,11 @@
           let data = JSON.parse(this.responseText);
           if (data.status == 'check-in-out-equal') {
             pay_info.innerText = "You cannot check-out date on the same day!";
-          } else if (data.status = 'check_out_earlier') {
+          } else if (data.status == 'check_out_earlier') {
             pay_info.innerText = "You cannot check-out date is earlier than check-in date!";
-          } else if (data.status = 'check_in_earlier') {
+          } else if (data.status == 'check_in_earlier') {
             pay_info.innerText = "You cannot check-in date is earlier than today's date!";
-          } else if (data.status = 'unvailabel') {
+          } else if (data.status == 'unvailabel') {
             pay_info.innerText = "Room not availabel for this check-in date!";
           } else {
             pay_info.innerHTML = "No. of Days: "+ data.days + "<br>Total Amount to Pay: $" + data.payment;
@@ -187,9 +216,6 @@
         xhr.send(data);
       }
     }
-
   </script>    
-
 </body>
-
 </html>
