@@ -20,22 +20,20 @@
     <h2 class="fw-bold h-font text-center">ABOUT US</h2>
     <div class="h-line"></div>
     <p class="text-center mt-3">
-      Lorem ipsum dolor, sit amet consectetur adipisicing
+      Chào các bạn bọn mình là nhóm: Quân, Thắng, Mạnh
     </p>
   </div>
 
   <div class="container">
     <div class="row justify-content-between align-items-center">
       <div class="col-lg-6  col-md-5 mb-4 order-lg-1 order-2">
-        <h3 class="mb-3">Lorem ipsum doloa</h3>
+        <h3 class="mb-3">Góp ý</h3>
         <p>
-          Lorem ipsum dolor sit amet consectetur adipisicing elit. 
-          Eligendi saepe reiciendis fuga quia. Incidunt impedit earum unde doloribus ab perspiciatis voluptate recusandae praesentium. 
-          Error esse aperiam eum ipsam, expedita debitis?
+          Mong nhận được sự góp ý từ thầy và các bạn
         </p>
       </div>
       <div class="col-lg-5 col-md-5 mb-4 order-lg-2 order-1">
-        <img src="images/about/about.jpg" class="w-100">
+        <img src="images/about/IMG_38323.png" class="w-100">
       </div>
     </div>
   </div>
