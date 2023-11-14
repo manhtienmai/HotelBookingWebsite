@@ -261,13 +261,11 @@
 
         <div class="swiper-slide bg-white">
           <div class="profile d-flex align-items-center p-4">
-            <img src="images/facilities/IMG_64366.svg" width="30px">
-            <h6 class="m-0 ms-2">Smith</h6>
+            <img src="images/facilities/airplane-svgrepo-com.svg" width="30px">
+            <h6 class="m-0 ms-2">Leo Terry</h6>
           </div>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Rerum odit obcaecati maiores recusandae ratione excepturi minus deleniti expedita necessitatibus voluptate quia animi sed cumque,
-            earum exercitationem sequi officia labore qui.
+            The location is perfect. Food places and sightseeing within walking distance. Ginza line train station 3 minute walk. Including be any happier with the location of this hotel. Staff were very kind and attentive. Rooms were always cleaned on time. Will definitely stay at other Far East Village locations. Highly recommended.
           </p>
           <div class="rating">
             <i class="bi bi-star-fill text-warning"></i>
@@ -278,13 +276,11 @@
         </div>
         <div class="swiper-slide bg-white">
           <div class="profile d-flex align-items-center p-4">
-            <img src="images/facilities/IMG_99754.svg" width="30px">
-            <h6 class="m-0 ms-2">Chee</h6>
+            <img src="images/facilities/emu-svgrepo-com.svg" width="30px">
+            <h6 class="m-0 ms-2">thang</h6>
           </div>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Rerum odit obcaecati maiores recusandae ratione excepturi minus deleniti expedita necessitatibus voluptate quia animi sed cumque,
-            earum exercitationem sequi officia labore qui.
+            Tuyệt vời, rất đáng giới thiệu
           </p>
           <div class="rating">
             <i class="bi bi-star-fill text-warning"></i>
@@ -295,13 +291,11 @@
         </div>
         <div class="swiper-slide bg-white p-4">
           <div class="profile d-flex align-items-center p-4">
-            <img src="images/facilities/IMG_82111.svg" width="30px">
-            <h6 class="m-0 ms-2">Random user</h6>
+            <img src="images/facilities/polaroid-svgrepo-com.svg" width="30px">
+            <h6 class="m-0 ms-2">Chaney Weaver</h6>
           </div>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Rerum odit obcaecati maiores recusandae ratione excepturi minus deleniti expedita necessitatibus voluptate quia animi sed cumque,
-            earum exercitationem sequi officia labore qui.
+            ラグジュアリーツインルームに一泊しました。部屋が広くて夜景も綺麗でした！ 枕が私には柔らかすぎたのでパイプ入りの枕に変更も快くしていただきましてありがとうございました。もう一泊したいくらい接客、サービスが良かったです。
           </p>
           <div class="rating">
             <i class="bi bi-star-fill text-warning"></i>
@@ -312,13 +306,12 @@
         </div>
         <div class="swiper-slide bg-white p-4">
           <div class="profile d-flex align-items-center p-4">
-            <img src="images/facilities/IMG_55799.svg" width="30px">
-            <h6 class="m-0 ms-2">Random user</h6>
+            <img src="images/facilities/wine-svgrepo-com.svg" width="30px">
+            <h6 class="m-0 ms-2">Quan Nguyen</h6>
           </div>
           <p>
-            Lorem ipsum dolor sit amet consectetur adipisicing elit.
-            Rerum odit obcaecati maiores recusandae ratione excepturi minus deleniti expedita necessitatibus voluptate quia animi sed cumque,
-            earum exercitationem sequi officia labore qui.
+            Location to the international hall.
+            For international visitors, the language skill of the staff is on the low side. You cannot rely on 2 English speaking persons who cannot be in service 24/7. If they are off duty, the communication could be pretty difficult.
           </p>
           <div class="rating">
             <i class="bi bi-star-fill text-warning"></i>
