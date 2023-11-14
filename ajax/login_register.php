@@ -70,8 +70,10 @@ if (isset($_POST['register'])) {
 
     $hashed_password = password_hash($data['pass'], PASSWORD_DEFAULT);
     $default_picture = 'C:\xampp\htdocs\HotelBookingWebsite\images\users\IMG_91004.jpeg';
-    $res = insert("INSERT INTO `user_cred`(`name`, `email`, `phonenum`, `password`, `profile`) VALUES (?, ?, ?, ?, ?)", 
-    [$data['name'], $data['email'], $data['phonenum'], $hashed_password, $img], "sssss");
+
+    $verified_status = 1; // Assuming 1 represents 'verified'
+    $res = insert("INSERT INTO `user_cred`(`name`, `email`, `address`, `phonenum`, `dob`, `password`, `profile`, `is_verified`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
+    [$data['name'], $data['email'], $data['address'], $data['phonenum'], $data['dob'], $hashed_password, $img, $verified_status], "sssisssi");
 
     if ($res > 0) {
         echo 'reg_success';

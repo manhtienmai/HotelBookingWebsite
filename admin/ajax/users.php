@@ -6,9 +6,7 @@
     if(isset($_POST['get_users'])) {
         $res = selectAll('user_cred');
         $i = 1;
-        // $path = USERS_IMG_PATH;
-        // <img src='$path$row[profile]' width='55px'>
-
+        $path = USERS_IMG_PATH;
         $data = "";
         while($row = mysqli_fetch_assoc($res)) 
         {
@@ -32,20 +30,20 @@
                     inactive
                 </button>";
             }
-
+            
+            // " . $path . $row['profile'] . "
             $date = date("d-m-Y", strtotime($row["datentime"]));
             $data.= "
                 <tr>
                     <td>$i</td>
                     <td>
-                        <img src='$row[profile]' width='55px'>
-                        <br>
+                        <img src='" . $path . $row['profile'] . "' width='30px' height='30px'>
                         $row[name]
                     </td>
                     <td>$row[email]</td>
                     <td>$row[phonenum]</td>
                     <td>$row[address]</td>
-                    <td>$row[email]</td>
+                    <td>$row[dob]</td>
                     <td>$verified</td>
                     <td>$status</td>
                     <td>$date</td>
@@ -122,7 +120,7 @@
                     <td>$row[email]</td>
                     <td>$row[phonenum]</td>
                     <td>$row[address]</td>
-                    <td>$row[email]</td>
+                    <td>$row[dob]</td>
                     <td>$verified</td>
                     <td>$status</td>
                     <td>$date</td>

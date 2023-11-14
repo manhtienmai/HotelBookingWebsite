@@ -1,5 +1,5 @@
 <div class="container-fluid d-flex p-4 bg-dark text-light justify-content-between sticky-top">
-    <h3 class="mb-0 h-font">HB WEBSITES</h3>
+    <h3 class="mb-0 h-font">JW MARRIOT</h3>
     <a href="logout.php" class="btn btn-light btn-sm">LOG OUT</a>
 </div>
 

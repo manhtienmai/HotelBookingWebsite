@@ -49,7 +49,7 @@
 
   $frm_data = filteration($_POST);
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pay_now'])) {
-    echo "Form submitted successfully!";
+    alert('success', 'Successfully Booked!');
     $checkin_date = new DateTime($frm_data['checkin']);
     $checkout_date = new DateTime($frm_data['checkout']);
     $interval = $checkin_date->diff($checkout_date);
@@ -60,18 +60,16 @@
       $query1 = "INSERT INTO `booking_order`(`room_id`, `user_id`, `check_in`, `check_out`, `arrival`, `refund`, `booking_status`, `order_id`, `trans_id`, `trans_amt`, `trans_status`, `trans_resp_msg`, `datentime`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
       $arrival = 1; 
       $refund = 0;
-      $booking_status = 'Success';
+      $booking_status = 'booked';
       $order_id = generateOrderId(); 
-      $trans_id = "10101"; 
-      $trans_status = 'pending';
+      $trans_id = generateTransactionID(10); 
+      $trans_status = 'Success';
       $trans_resp_msg = 'Payment processed successfully';
       $datentime = date('Y-m-d'); 
-        
+      $room_no = $_SESSION['room']['id'];
       insert($query1, [$_SESSION['room']['id'], $_SESSION['uId'], $frm_data['checkin'], $frm_data['checkout'], 
         $arrival, $refund, $booking_status, $order_id, $trans_id, $trans_amt, $trans_status, $trans_resp_msg, $datentime], 'iissiisiiisss');
       $booking_id = mysqli_insert_id($conn);
-      $room_no = "101"; 
-
       $query2 = "INSERT INTO `booking_details`(`booking_id`, `room_name`, `price`, `total_pay`, `room_no`, `username`, `phonenum`, `address`) VALUES (?,?,?,?,?,?,?,?)";
       insert($query2, [$booking_id, $_SESSION['room']['name'], $_SESSION['room']['price'], $total_pay, $room_no, $frm_data['name'], $frm_data['phonenum'], $frm_data['address']], 'isiiisss');
     }
@@ -82,6 +80,17 @@
   function generateOrderId() {
       return rand(1, 1000);
   }
+
+  function generateTransactionID($length = 10) {
+    $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
+    $charactersLength = strlen($characters);
+    $randomString = '';
+
+    for ($i = 0; $i < $length; $i++) {
+        $randomString .= $characters[rand(0, $charactersLength - 1)];
+    }
+    return $randomString;
+    }
   ?>
 
   <div class="container">
