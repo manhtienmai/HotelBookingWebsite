@@ -277,10 +277,10 @@
         <div class="swiper-slide bg-white">
           <div class="profile d-flex align-items-center p-4">
             <img src="images/facilities/emu-svgrepo-com.svg" width="30px">
-            <h6 class="m-0 ms-2">thang</h6>
+            <h6 class="m-0 ms-2">Thang san</h6>
           </div>
           <p>
-            Tuyệt vời, rất đáng giới thiệu
+            Tuyệt vời, rất đáng giới thiệu cho bạn bè.
           </p>
           <div class="rating">
             <i class="bi bi-star-fill text-warning"></i>
@@ -307,7 +307,7 @@
         <div class="swiper-slide bg-white p-4">
           <div class="profile d-flex align-items-center p-4">
             <img src="images/facilities/wine-svgrepo-com.svg" width="30px">
-            <h6 class="m-0 ms-2">Quan Nguyen</h6>
+            <h6 class="m-0 ms-2">Alexander</h6>
           </div>
           <p>
             Location to the international hall.

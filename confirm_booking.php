@@ -58,7 +58,7 @@
     $trans_amt = $total_pay;
     if(isset($_SESSION['room']['id'], $_SESSION['room']['name'], $_SESSION['room']['price'])) {  
       $query1 = "INSERT INTO `booking_order`(`room_id`, `user_id`, `check_in`, `check_out`, `arrival`, `refund`, `booking_status`, `order_id`, `trans_id`, `trans_amt`, `trans_status`, `trans_resp_msg`, `datentime`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-      $arrival = 1; 
+      $arrival = 0; 
       $refund = 0;
       $booking_status = 'booked';
       $order_id = generateOrderId(); 

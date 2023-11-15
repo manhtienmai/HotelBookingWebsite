@@ -49,7 +49,7 @@
             }
 
           ?>
-          <h6 class="badge bg-danger py-2 px3 rounded">Shutdown Mode is Active!</h6>
+          <!-- <h6 class="badge bg-danger py-2 px3 rounded">Shutdown Mode is Active!</h6> -->
         </div>
 
         <div class="row mb-4">
