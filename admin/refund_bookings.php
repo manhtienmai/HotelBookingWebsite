@@ -11,30 +11,52 @@
     <meta charset="UTF-8">
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Admin Panel - REFUND BOOKING</title>
+    <title>Admin Panel - Refund Booking</title>
     <?php require('inc/links.php'); ?>
-
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+        .main-content {
+            padding: 20px;
+        }
+        .card {
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .table th {
+            background-color: #344055;
+            color: white;
+        }
+        .table-hover tbody tr:hover {
+            background-color: #f2f2f2;
+        }
+        .form-control {
+            border-radius: 5px;
+            box-shadow: none;
+        }
+    </style>
 </head>
 
-<body class="bg-light">
+<body>
 
     <?php require('inc/header.php'); ?>
 
-    <div class="container-fuild" id="main_content">
+    <div class="container-fluid main-content">
         <div class="row">
-            <div class="col-lg-10 ms-auto p-4 overflow-hidden">
-                <h3 class="mb-4">REFUND BOOKING</h3>
+            <div class="col-lg-10 ms-auto">
+                <h3 class="mb-4">Refund Booking</h3>
 
-                <div class="card border-0 shadow mb-4">
+                <div class="card">
                     <div class="card-body">
-                        <div class="text-end mb-4">
-                            <input type="text" oninput="get_bookings(this.value)" class="form-control shadow-none w-25 ms-auto" placeholder="Type to search...">
+                        <div class="search-bar mb-4">
+                            <input type="text" oninput="get_bookings(this.value)" class="form-control w-25 ms-auto" placeholder="Type to search...">
                         </div>
 
                         <div class="table-responsive">
-                            <table class="table table-hover border" style="min-width: 1100px;">
+                            <table class="table table-hover">
                                 <thead>
-                                    <tr class="bg-dark text-light">
+                                    <tr>
                                         <th scope="col">#</th>
                                         <th scope="col">User Details</th>
                                         <th scope="col">Room Details</th>
@@ -46,7 +68,6 @@
                                 </tbody>
                             </table>
                         </div>
-
                     </div>
                 </div>
             </div>
@@ -54,7 +75,6 @@
     </div>
 
     <?php require('inc/scripts.php'); ?>
-
     <script src="scripts/refund_bookings.js"></script>
 </body>
 </html>

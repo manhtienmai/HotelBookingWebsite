@@ -11,12 +11,12 @@
         $start = ($page-1)*$limit;
 
         $query = "SELECT bo.*, bd.* FROM `booking_order` bo
-        INNER JOIN `booking_details` bd ON bo.booking_id = bd.booking_id
-        WHERE ((bo.booking_status ='booked' AND bo.arrival=1) 
-        OR (bo.booking_status ='cancelled' AND bo.refund=1) 
-        OR (bo.booking_status ='payment failed'))
-        AND (bo.order_id LIKE ? OR bd.phonenum LIKE ? OR bd.username LIKE ?)
-        ORDER BY bo.booking_id DESC";
+                  INNER JOIN `booking_details` bd ON bo.booking_id = bd.booking_id
+                  WHERE ((bo.booking_status ='booked' AND bo.arrival=1) 
+                  OR (bo.booking_status ='cancelled' AND bo.refund=1) 
+                  OR (bo.booking_status ='payment failed'))
+                  AND (bo.order_id LIKE ? OR bd.phonenum LIKE ? OR bd.username LIKE ?)
+                  ORDER BY bo.booking_id DESC";
         
         $res = select($query,["%$frm_data[search]%", "%$frm_data[search]%", "%$frm_data[search]%"],'sss');
         
@@ -115,7 +115,6 @@
 
 
         }
-
         $output = json_encode(["table_data"=>$table_data, "pagination"=>$pagination]);
         echo $output;
     }

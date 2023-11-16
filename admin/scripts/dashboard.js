@@ -28,7 +28,7 @@ function user_analytics(period=1) {
 
         document.getElementById('total_new_reg').textContent = data.total_new_reg;
         document.getElementById('total_queries').textContent = data.total_queries;
-        // document.getElementById('cancelled_bookings').textContent = data.cancelled_bookings;
+        document.getElementById('cancelled_bookings').textContent = data.cancelled_bookings;
 
     }
     xhr.send('user_analytics&period='+period);

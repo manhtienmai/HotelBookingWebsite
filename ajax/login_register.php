@@ -2,51 +2,37 @@
 require_once('../admin/inc/db_config.php');
 require('../admin/inc/essentials.php');
 
-// Login
-if (isset($_POST['login'])) {
+function handleLogin() {
     $data = filteration($_POST);
-    
+
     $u_exist = select("SELECT * FROM `user_cred` WHERE `email` = ? OR `phonenum` = ? LIMIT 1",
     [$data['email_mob'], $data['email_mob']], "ss");
 
     if (mysqli_num_rows($u_exist) == 0) {
-        echo 'inv_email_mob';
-        exit;
-    } else {
-        $u_fetch = mysqli_fetch_assoc($u_exist);
-        if ($u_fetch['is_verified'] == 0) {
-            echo 'not_verified';
-            exit;
-        } else if ($u_fetch['status'] == 0) {
-            echo 'inactive';
-            exit;
-        } else {
+        return 'inv_email_mob';
+    }
 
-            if ($data['pass'] !== $u_fetch['password']) {
-              error_log('Password verification failed for user: ' . $data['email_mob']);
-              echo 'invalid_pass';
-              exit; 
-            } else {
-                session_start();
-                $_SESSION['login'] = true;
-                $_SESSION['uId'] = $u_fetch['id'];
-                $_SESSION['uName'] = $u_fetch['name'];
-                $_SESSION['uPic'] = $u_fetch['profile'];
-                $_SESSION['uPhone'] = $u_fetch['phonenum'];
-                echo "login_success";
-                exit;
-            }
-        }
+    $u_fetch = mysqli_fetch_assoc($u_exist);
+
+    if ($u_fetch['is_verified'] == 0) {
+        return 'not_verified';
+    } else if ($u_fetch['status'] == 0) {
+        return 'inactive';
+    } else if ($data['pass'] !== $u_fetch['password']) {
+        error_log('Password verification failed for user: ' . $data['email_mob']);
+        return 'invalid_pass';
+    } else {
+        session_start();
+        $_SESSION = ['login' => true, 'uId' => $u_fetch['id'], 'uName' => $u_fetch['name'], 'uPic' => $u_fetch['profile'], 'uPhone' => $u_fetch['phonenum']];
+        return "login_success";
     }
 }
 
-// Registration
-if (isset($_POST['register'])) {
+function handleRegistration() {
     $data = filteration($_POST);
 
     if ($data['pass'] != $data['cpass']) {
-        echo 'pass_mismatch';
-        exit;
+        return 'pass_mismatch';
     }
 
     $u_exist = select("SELECT * FROM `user_cred` WHERE `email` = ? OR `phonenum` = ? LIMIT 1",
@@ -54,36 +40,32 @@ if (isset($_POST['register'])) {
 
     if (mysqli_num_rows($u_exist) > 0) {
         $u_exist_fetch = mysqli_fetch_assoc($u_exist);
-        echo ($u_exist_fetch['email'] == $data['email']) ? 'email_already' : 'phone_already';
-        exit;
+        return ($u_exist_fetch['email'] == $data['email']) ? 'email_already' : 'phone_already';
     }
 
     $img = uploadUserImage($_FILES['profile']);
-
-    if ($img == 'inv_img') {
-        echo 'inv_img';
-        exit;
-    } else if ($img == 'upd_failed') {
-        echo 'upd_failed';
-        exit;
+    if (in_array($img, ['inv_img', 'upd_failed'])) {
+        return $img;
     }
 
     $hashed_password = password_hash($data['pass'], PASSWORD_DEFAULT);
-    $default_picture = 'C:\xampp\htdocs\HotelBookingWebsite\images\users\IMG_91004.jpeg';
+    $verified_status = 1; // automatically verified
 
-    $verified_status = 1; // Assuming 1 represents 'verified'
     $res = insert("INSERT INTO `user_cred`(`name`, `email`, `address`, `phonenum`, `dob`, `password`, `profile`, `is_verified`) VALUES (?, ?, ?, ?, ?, ?, ?, ?)", 
     [$data['name'], $data['email'], $data['address'], $data['phonenum'], $data['dob'], $hashed_password, $img, $verified_status], "sssisssi");
 
-    if ($res > 0) {
-        echo 'reg_success';
-        exit;
-    } else {
-        echo 'reg_failed';
-        exit;
-    }
+    return $res > 0 ? 'reg_success' : 'reg_failed';
 }
 
-// If we reach this point, it means that neither 'login' nor 'register' POST variables were set
-exit('No action to perform.');
+$actionResult = '';
+
+if (isset($_POST['login'])) {
+    $actionResult = handleLogin();
+} elseif (isset($_POST['register'])) {
+    $actionResult = handleRegistration();
+} else {
+    $actionResult = 'No action to perform.';
+}
+
+exit($actionResult);
 ?>

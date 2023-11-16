@@ -46,51 +46,66 @@
   $user_res = select("SELECT * FROM `user_cred` WHERE `id` = ? LIMIT 1",
   [$_SESSION['uId']], "i");
   $user_data = mysqli_fetch_assoc($user_res);
-
   $frm_data = filteration($_POST);
+
   if ($_SERVER['REQUEST_METHOD'] == 'POST' && isset($_POST['pay_now'])) {
+    processBooking($_POST);
+  }
+
+  function processBooking($frm_data) {
     alert('success', 'Successfully Booked!');
     $checkin_date = new DateTime($frm_data['checkin']);
     $checkout_date = new DateTime($frm_data['checkout']);
     $interval = $checkin_date->diff($checkout_date);
-    $number_of_nights = $interval->days;
-    $total_pay = $_SESSION['room']['price'] * $number_of_nights;
-    $trans_amt = $total_pay;
-    if(isset($_SESSION['room']['id'], $_SESSION['room']['name'], $_SESSION['room']['price'])) {  
-      $query1 = "INSERT INTO `booking_order`(`room_id`, `user_id`, `check_in`, `check_out`, `arrival`, `refund`, `booking_status`, `order_id`, `trans_id`, `trans_amt`, `trans_status`, `trans_resp_msg`, `datentime`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
-      $arrival = 0; 
-      $refund = 0;
-      $booking_status = 'booked';
-      $order_id = generateOrderId(); 
-      $trans_id = generateTransactionID(10); 
-      $trans_status = 'Success';
-      $trans_resp_msg = 'Payment processed successfully';
-      $datentime = date('Y-m-d'); 
-      $room_no = $_SESSION['room']['id'];
-      insert($query1, [$_SESSION['room']['id'], $_SESSION['uId'], $frm_data['checkin'], $frm_data['checkout'], 
-        $arrival, $refund, $booking_status, $order_id, $trans_id, $trans_amt, $trans_status, $trans_resp_msg, $datentime], 'iissiisiiisss');
-      $booking_id = mysqli_insert_id($conn);
-      $query2 = "INSERT INTO `booking_details`(`booking_id`, `room_name`, `price`, `total_pay`, `room_no`, `username`, `phonenum`, `address`) VALUES (?,?,?,?,?,?,?,?)";
-      insert($query2, [$booking_id, $_SESSION['room']['name'], $_SESSION['room']['price'], $total_pay, $room_no, $frm_data['name'], $frm_data['phonenum'], $frm_data['address']], 'isiiisss');
+    $total_pay = calculateTotalPay($interval->days);
+
+    if (sessionVariablesSet()) {
+        insertBookingData($total_pay, $frm_data);
+    } else {
+        echo "Session variables not set.";
     }
-    else {
-          echo "Session variables not set.";
-    }   
   }
+
+  function calculateTotalPay($number_of_nights) {
+    return $_SESSION['room']['price'] * $number_of_nights;
+  }
+
+  function sessionVariablesSet() {
+    return isset($_SESSION['room']['id'], $_SESSION['room']['name'], $_SESSION['room']['price']);
+  }
+
+  function insertBookingData($total_pay, $frm_data) {
+    global $conn;
+    $query1 = prepareBookingOrderQuery();
+    $order_id = generateOrderId();
+    $trans_id = generateTransactionID(10);
+    $datentime = date('Y-m-d H:i:s');
+    insert($query1, [$_SESSION['room']['id'], $_SESSION['uId'], $frm_data['checkin'], $frm_data['checkout'], 0, 0, 'booked', $order_id, $trans_id, $total_pay, 'Success', 'Payment processed successfully', $datentime], 'iissiisiiisss');
+    $booking_id = mysqli_insert_id($conn);
+    insertBookingDetails($booking_id, $total_pay, $frm_data);
+  }
+
+  function prepareBookingOrderQuery() {
+    return "INSERT INTO `booking_order`(`room_id`, `user_id`, `check_in`, `check_out`, `arrival`, `refund`, `booking_status`, `order_id`, `trans_id`, `trans_amt`, `trans_status`, `trans_resp_msg`, `datentime`) VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?)";
+  }
+
+  function insertBookingDetails($booking_id, $total_pay, $frm_data) {
+      $query2 = "INSERT INTO `booking_details`(`booking_id`, `room_name`, `price`, `total_pay`, `room_no`, `username`, `phonenum`, `address`) VALUES (?,?,?,?,?,?,?,?)";
+      insert($query2, [$booking_id, $_SESSION['room']['name'], $_SESSION['room']['price'], $total_pay, $_SESSION['room']['id'], $frm_data['name'], $frm_data['phonenum'], $frm_data['address']], 'isiiisss');
+  }
+
   function generateOrderId() {
       return rand(1, 1000);
   }
 
   function generateTransactionID($length = 10) {
     $characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789';
-    $charactersLength = strlen($characters);
     $randomString = '';
-
     for ($i = 0; $i < $length; $i++) {
-        $randomString .= $characters[rand(0, $charactersLength - 1)];
+        $randomString .= $characters[rand(0, strlen($characters) - 1)];
     }
     return $randomString;
-    }
+  }
   ?>
 
   <div class="container">
@@ -144,11 +159,7 @@
                 </div>
                 <div class="col-md-12 mb-3">
                   <label class="form-label">Address</label>
-                  <textarea name="address" class="form-control shadow-none" rows="1" required>
-                    <?php
-                      echo $user_data['address'] 
-                    ?>
-                  </textarea>
+                  <input name="address" type="text" value="<?php echo $user_data['address']?>" class="form-control shadow-none" required>
                 </div>
                 <div class="col-md-6 mb-3">
                   <label class="form-label">Check-in</label>

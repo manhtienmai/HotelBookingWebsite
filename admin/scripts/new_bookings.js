@@ -30,15 +30,20 @@ assign_room_form.addEventListener('submit', function(e){
         var myModal = document.getElementById('assign-room');
         var modal = bootstrap.Modal.getInstance(myModal);
         modal.hide();
+    
+        if (xhr.status === 200) {
+            if (xhr.responseText == 1) {
+                alert('success', 'Room Number allotted! Booking Finalized');
+                assign_room_form.reset();
+                get_bookings();
+            } else {
+                alert('error', 'An error occurred. Please try again later.');
+            }
+        } else {
+            alert('error', 'Server Down!');
+        }
     }
-
-    if(this.responseText == 1){
-        alert('success', 'Room Number alloted! Booking Finalized');
-        assign_room_form.reset();
-        get_bookings();
-    }else {
-        alert('error', 'Server Down!');
-    }
+    
 
     xhr.send(data);
 })
