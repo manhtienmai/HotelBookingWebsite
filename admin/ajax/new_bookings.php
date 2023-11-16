@@ -9,7 +9,7 @@
                   INNER JOIN `booking_details` bd ON bo.booking_id = bd.booking_id
                   WHERE (bo.order_id LIKE ? OR bd.phonenum LIKE ? OR bd.username LIKE ?)
                   AND (bo.booking_status =? AND bo.arrival=?) 
-                  ORDER BY bo.booking_id ASC";
+                  ORDER BY bo.booking_id DESC";
                 
         $res = select($query,["%$frm_data[search]%", "%$frm_data[search]%", "%$frm_data[search]%", "booked", 0],'sssss');
         if (!$res) {
